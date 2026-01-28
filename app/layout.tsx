@@ -1,14 +1,46 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
+import type { Metadata, Viewport } from "next"
+import { Inter, JetBrains_Mono } from "next/font/google"
+import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+})
 
 export const metadata: Metadata = {
-  title: 'Multi-Tool Kit',
-  description: 'A collection of useful tools',
+  title: "TechMate | Your Digital Toolkit",
+  description:
+    "A powerful collection of developer and productivity tools. Generate passwords, record audio, create color palettes, and convert units - all in one place.",
+  keywords: [
+    "password generator",
+    "audio recorder",
+    "color palette",
+    "unit converter",
+    "developer tools",
+  ],
+  authors: [{ name: "TechMate" }],
+  openGraph: {
+    title: "TechMate | Your Digital Toolkit",
+    description:
+      "A powerful collection of developer and productivity tools.",
+    type: "website",
+  },
+}
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+  width: "device-width",
+  initialScale: 1,
 }
 
 export default function RootLayout({
@@ -18,7 +50,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} dark:bg-slate-900`}>
+      <body
+        className={`${inter.variable} ${jetbrainsMono.variable} font-sans`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -32,5 +66,3 @@ export default function RootLayout({
     </html>
   )
 }
-
-
