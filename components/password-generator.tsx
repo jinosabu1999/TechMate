@@ -13,7 +13,7 @@ import {
   ShieldAlert,
   ShieldCheck,
 } from "lucide-react"
-import { useToast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 
 export function PasswordGenerator() {
@@ -24,7 +24,6 @@ export function PasswordGenerator() {
   const [includeNumbers, setIncludeNumbers] = useState(true)
   const [includeSymbols, setIncludeSymbols] = useState(true)
   const [copied, setCopied] = useState(false)
-  const { toast } = useToast()
 
   const generatePassword = useCallback(() => {
     let charset = ""
@@ -52,9 +51,7 @@ export function PasswordGenerator() {
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(password)
     setCopied(true)
-    toast({
-      description: "Password copied to clipboard",
-    })
+    toast.success("Password copied to clipboard")
     setTimeout(() => setCopied(false), 2000)
   }
 

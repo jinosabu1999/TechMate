@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { RefreshCw, Copy, Check, Lock, Unlock } from "lucide-react"
-import { useToast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 
 interface ColorPalette {
@@ -33,7 +33,6 @@ export function Colors() {
     }))
   )
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
-  const { toast } = useToast()
 
   const generateNewPalette = useCallback(() => {
     setPalette((prev) =>
@@ -54,7 +53,7 @@ export function Colors() {
   const copyToClipboard = async (color: string, index: number) => {
     await navigator.clipboard.writeText(color)
     setCopiedIndex(index)
-    toast({ description: `Copied ${color.toUpperCase()}` })
+    toast.success(`Copied ${color.toUpperCase()}`)
     setTimeout(() => setCopiedIndex(null), 2000)
   }
 

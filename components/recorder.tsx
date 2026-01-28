@@ -11,7 +11,7 @@ import {
   Clock,
   AlertCircle,
 } from "lucide-react"
-import { useToast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { Textarea } from "@/components/ui/textarea"
 import {
   Dialog,
@@ -40,7 +40,6 @@ export function Recorder() {
   const [isSupported, setIsSupported] = useState(true)
   const mediaRecorder = useRef<MediaRecorder | null>(null)
   const recognitionRef = useRef<SpeechRecognition | null>(null)
-  const { toast } = useToast()
 
   useEffect(() => {
     if (
@@ -96,11 +95,7 @@ export function Recorder() {
         recognitionRef.current.start()
       }
     } catch {
-      toast({
-        description:
-          "Error accessing microphone. Please check your permissions.",
-        variant: "destructive",
-      })
+      toast.error("Error accessing microphone. Please check your permissions.")
     }
   }
 
@@ -119,7 +114,7 @@ export function Recorder() {
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(transcript)
     setIsCopied(true)
-    toast({ description: "Transcript copied to clipboard" })
+    toast.success("Transcript copied to clipboard")
     setTimeout(() => setIsCopied(false), 2000)
   }
 
@@ -132,13 +127,13 @@ export function Recorder() {
       }
       setTranscriptHistory((prev) => [newTranscript, ...prev])
       setTranscript("")
-      toast({ description: "Transcript saved" })
+      toast.success("Transcript saved")
     }
   }
 
   const deleteTranscript = (id: string) => {
     setTranscriptHistory((prev) => prev.filter((item) => item.id !== id))
-    toast({ description: "Transcript deleted" })
+    toast.success("Transcript deleted")
   }
 
   const updateTranscript = () => {
@@ -149,7 +144,7 @@ export function Recorder() {
         )
       )
       setEditingTranscript(null)
-      toast({ description: "Transcript updated" })
+      toast.success("Transcript updated")
     }
   }
 
