@@ -37,8 +37,8 @@ export function ToolTabs() {
 
   return (
     <nav className="mb-8" aria-label="Tool navigation">
-      {/* Mobile: Horizontal scroll */}
-      <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible scrollbar-hide">
+      {/* Navigation tabs - responsive grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
         {tools.map((tool) => {
           const Icon = tool.icon
           const isActive = pathname === tool.href
@@ -47,46 +47,17 @@ export function ToolTabs() {
               key={tool.href}
               href={tool.href}
               className={cn(
-                "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 min-w-fit",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                isActive
-                  ? "bg-accent text-accent-foreground shadow-lg shadow-accent/20"
-                  : "bg-card hover:bg-secondary border border-border/50 text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <Icon
-                className={cn(
-                  "h-4 w-4 shrink-0",
-                  isActive ? "text-accent-foreground" : "text-muted-foreground"
-                )}
-              />
-              <span className="whitespace-nowrap">{tool.name}</span>
-            </Link>
-          )
-        })}
-      </div>
-
-      {/* Desktop: Grid with descriptions */}
-      <div className="hidden lg:grid lg:grid-cols-4 gap-3 mt-4">
-        {tools.map((tool) => {
-          const Icon = tool.icon
-          const isActive = pathname === tool.href
-          return (
-            <Link
-              key={`${tool.href}-desktop`}
-              href={tool.href}
-              className={cn(
-                "group flex flex-col gap-2 p-4 rounded-xl transition-all duration-200",
+                "group flex flex-col gap-2 p-3 sm:p-4 rounded-xl transition-all duration-200",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                 isActive
                   ? "bg-accent text-accent-foreground shadow-lg shadow-accent/20"
                   : "bg-card hover:bg-secondary border border-border/50"
               )}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <div
                   className={cn(
-                    "flex h-8 w-8 items-center justify-center rounded-lg transition-colors",
+                    "flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg transition-colors shrink-0",
                     isActive
                       ? "bg-accent-foreground/20"
                       : "bg-muted group-hover:bg-accent/10"
@@ -94,7 +65,7 @@ export function ToolTabs() {
                 >
                   <Icon
                     className={cn(
-                      "h-4 w-4",
+                      "h-3.5 w-3.5 sm:h-4 sm:w-4",
                       isActive
                         ? "text-accent-foreground"
                         : "text-muted-foreground group-hover:text-accent"
@@ -103,7 +74,7 @@ export function ToolTabs() {
                 </div>
                 <span
                   className={cn(
-                    "font-medium",
+                    "font-medium text-sm sm:text-base",
                     isActive ? "text-accent-foreground" : "text-foreground"
                   )}
                 >
@@ -112,7 +83,7 @@ export function ToolTabs() {
               </div>
               <p
                 className={cn(
-                  "text-xs",
+                  "text-xs hidden sm:block",
                   isActive
                     ? "text-accent-foreground/80"
                     : "text-muted-foreground"
