@@ -1,7 +1,7 @@
 import * as React from "react"
 
 interface Toast {
-  id: string
+  id?: string
   description?: string
   variant?: "default" | "destructive"
 }
