@@ -35,6 +35,7 @@ export function PasswordGenerator() {
 
   useEffect(() => {
     generatePassword()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const copyToClipboard = async () => {

@@ -22,6 +22,7 @@ export function Converter() {
 
   useEffect(() => {
     handleConvert()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, fromUnit, toUnit, fromValue])
 
   const handleConvert = () => {

@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Mic, Square, Copy, Check, Trash2, Clock } from 'lucide-react'
 import { useToast } from "@/components/ui/use-toast"
-import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import {
