@@ -5,9 +5,14 @@ import { PasswordGenerator } from "@/components/password-generator"
 export default function Home() {
   return (
     <Layout>
-      <h1 className="text-3xl font-bold text-center mb-6 dark:text-white">Multi-Tool Kit</h1>
-      <ToolTabs />
-      <PasswordGenerator />
+      <div className="space-y-8">
+        <div className="text-center space-y-3">
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">Password Generator</h1>
+          <p className="text-muted-foreground text-base sm:text-lg max-w-md mx-auto">Create strong, secure passwords instantly. Customize the length and character types to match your security requirements.</p>
+        </div>
+        <ToolTabs />
+        <PasswordGenerator />
+      </div>
     </Layout>
   )
 }

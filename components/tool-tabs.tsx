@@ -32,22 +32,23 @@ export function ToolTabs() {
   const pathname = usePathname()
 
   return (
-    <div className="flex border rounded-lg overflow-hidden mb-6">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-8">
       {tools.map((tool) => {
         const Icon = tool.icon
+        const isActive = pathname === tool.href
         return (
           <Link
             key={tool.href}
             href={tool.href}
             className={cn(
-              "flex-1 flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium transition-colors",
-              pathname === tool.href
-                ? "bg-primary text-primary-foreground"
-                : "hover:bg-muted"
+              "flex flex-col items-center justify-center gap-2 px-4 py-4 rounded-lg font-medium text-sm transition-all duration-200 hover:scale-105",
+              isActive
+                ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
+                : "bg-secondary text-foreground hover:bg-muted border border-border/50"
             )}
           >
-            <Icon className="h-4 w-4" />
-            <span className="hidden sm:inline">{tool.name}</span>
+            <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
+            <span className="text-xs sm:text-sm text-center">{tool.name}</span>
           </Link>
         )
       })}

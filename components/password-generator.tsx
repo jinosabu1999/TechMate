@@ -6,7 +6,7 @@ import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { Copy } from 'lucide-react'
+import { Copy, RefreshCw, Check } from 'lucide-react'
 import { useToast } from "@/components/ui/use-toast"
 
 export function PasswordGenerator() {
@@ -16,6 +16,7 @@ export function PasswordGenerator() {
   const [includeLowercase, setIncludeLowercase] = useState(true)
   const [includeNumbers, setIncludeNumbers] = useState(true)
   const [includeSymbols, setIncludeSymbols] = useState(true)
+  const [copied, setCopied] = useState(false)
   const { toast } = useToast()
 
   const generatePassword = () => {
@@ -34,38 +35,51 @@ export function PasswordGenerator() {
 
   useEffect(() => {
     generatePassword()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(password)
+    setCopied(true)
     toast({
       description: "Password copied to clipboard",
     })
+    setTimeout(() => setCopied(false), 2000)
   }
 
   return (
-    <div className="space-y-6">
-      <div className="relative">
-        <Input
-          value={password}
-          readOnly
-          placeholder="Generated password will appear here"
-          className="pr-10"
-        />
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute right-0 top-0 h-full"
-          onClick={copyToClipboard}
-        >
-          <Copy className="h-4 w-4" />
-          <span className="sr-only">Copy password</span>
-        </Button>
+    <div className="card space-y-6">
+      <div className="space-y-2">
+        <Label className="text-xs uppercase tracking-wide text-muted-foreground">Generated Password</Label>
+        <div className="relative">
+          <Input
+            value={password}
+            readOnly
+            placeholder="Generated password will appear here"
+            className="pr-12 text-base font-mono"
+          />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
+            onClick={copyToClipboard}
+          >
+            {copied ? (
+              <Check className="h-4 w-4 text-accent" />
+            ) : (
+              <Copy className="h-4 w-4" />
+            )}
+            <span className="sr-only">Copy password</span>
+          </Button>
+        </div>
       </div>
 
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <Label>Password Length: {length}</Label>
+      <div className="space-y-4 rounded-lg bg-background/50 p-4">
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <Label className="text-sm">Password Length</Label>
+            <span className="text-lg font-bold text-primary">{length}</span>
+          </div>
           <Slider
             value={[length]}
             onValueChange={([value]) => {
@@ -75,12 +89,17 @@ export function PasswordGenerator() {
             min={6}
             max={32}
             step={1}
+            className="w-full"
           />
+          <div className="flex justify-between text-xs text-muted-foreground">
+            <span>Min: 6</span>
+            <span>Max: 32</span>
+          </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="uppercase">Include Uppercase</Label>
+        <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
+          <div className="flex items-center justify-between rounded-lg bg-muted/30 p-3">
+            <Label htmlFor="uppercase" className="text-sm">Uppercase</Label>
             <Switch
               id="uppercase"
               checked={includeUppercase}
@@ -90,8 +109,8 @@ export function PasswordGenerator() {
               }}
             />
           </div>
-          <div className="flex items-center justify-between">
-            <Label htmlFor="lowercase">Include Lowercase</Label>
+          <div className="flex items-center justify-between rounded-lg bg-muted/30 p-3">
+            <Label htmlFor="lowercase" className="text-sm">Lowercase</Label>
             <Switch
               id="lowercase"
               checked={includeLowercase}
@@ -101,8 +120,8 @@ export function PasswordGenerator() {
               }}
             />
           </div>
-          <div className="flex items-center justify-between">
-            <Label htmlFor="numbers">Include Numbers</Label>
+          <div className="flex items-center justify-between rounded-lg bg-muted/30 p-3">
+            <Label htmlFor="numbers" className="text-sm">Numbers</Label>
             <Switch
               id="numbers"
               checked={includeNumbers}
@@ -112,8 +131,8 @@ export function PasswordGenerator() {
               }}
             />
           </div>
-          <div className="flex items-center justify-between">
-            <Label htmlFor="symbols">Include Symbols</Label>
+          <div className="flex items-center justify-between rounded-lg bg-muted/30 p-3">
+            <Label htmlFor="symbols" className="text-sm">Symbols</Label>
             <Switch
               id="symbols"
               checked={includeSymbols}
@@ -127,9 +146,10 @@ export function PasswordGenerator() {
       </div>
 
       <Button
-        className="w-full"
+        className="w-full h-11 text-base font-semibold"
         onClick={generatePassword}
       >
+        <RefreshCw className="h-4 w-4 mr-2" />
         Generate New Password
       </Button>
     </div>

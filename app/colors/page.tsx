@@ -1,16 +1,17 @@
 import { Layout } from "@/components/layout"
 import { ToolTabs } from "@/components/tool-tabs"
 import { Colors } from "@/components/colors"
-import { Converter } from "@/components/converter"
 
 export default function ColorsPage() {
   return (
     <Layout>
-      <h1 className="text-3xl font-bold text-center mb-6 dark:text-white">Multi-Tool Kit</h1>
-      <ToolTabs />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="space-y-8">
+        <div className="text-center space-y-3">
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">Color Palette Generator</h1>
+          <p className="text-muted-foreground text-base sm:text-lg max-w-md mx-auto">Generate beautiful color palettes instantly. Perfect for design inspiration, web projects, and creative work.</p>
+        </div>
+        <ToolTabs />
         <Colors />
-        <Converter />
       </div>
     </Layout>
   )

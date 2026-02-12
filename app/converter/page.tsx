@@ -5,9 +5,14 @@ import { Converter } from "@/components/converter"
 export default function ConverterPage() {
   return (
     <Layout>
-      <h1 className="text-3xl font-bold text-center mb-6">Multi-Tool Kit</h1>
-      <ToolTabs />
-      <Converter />
+      <div className="space-y-8">
+        <div className="text-center space-y-3">
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">Unit Converter</h1>
+          <p className="text-muted-foreground text-base sm:text-lg max-w-md mx-auto">Convert between different units instantly. Supports length, weight, and temperature conversions with precision.</p>
+        </div>
+        <ToolTabs />
+        <Converter />
+      </div>
     </Layout>
   )
 }

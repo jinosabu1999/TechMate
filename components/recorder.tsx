@@ -4,8 +4,8 @@ import { useState, useRef, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Mic, Square, Copy, Check, Trash2, Clock } from 'lucide-react'
 import { useToast } from "@/components/ui/use-toast"
-import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label"
 import {
   Dialog,
   DialogContent,
@@ -135,72 +135,102 @@ export function Recorder() {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-center space-x-4">
-        <Button onClick={isRecording ? stopRecording : startRecording}>
-          {isRecording ? <Square className="mr-2 h-4 w-4" /> : <Mic className="mr-2 h-4 w-4" />}
-          {isRecording ? 'Stop Recording' : 'Start Recording'}
-        </Button>
-      </div>
-      {transcript && (
-        <div className="mt-4 p-4 bg-slate-800 rounded-lg relative">
-          <Textarea
-            value={transcript}
-            onChange={(e) => setTranscript(e.target.value)}
-            className="min-h-[100px] text-white bg-transparent border-none focus:ring-0"
-          />
-          <Button
-            variant="ghost"
-            size="sm"
-            className="absolute top-2 right-2"
-            onClick={copyToClipboard}
+    <div className="card space-y-6">
+      <div className="space-y-4">
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <Button 
+            onClick={isRecording ? stopRecording : startRecording}
+            className={`h-12 text-base font-semibold flex-1 sm:flex-initial ${isRecording ? 'bg-red-600 hover:bg-red-700' : 'bg-primary hover:bg-primary/90'}`}
           >
-            {isCopied ? (
-              <Check className="h-4 w-4 text-green-500" />
+            {isRecording ? (
+              <>
+                <Square className="mr-2 h-5 w-5 animate-pulse" />
+                Stop Recording
+              </>
             ) : (
-              <Copy className="h-4 w-4" />
+              <>
+                <Mic className="mr-2 h-5 w-5" />
+                Start Recording
+              </>
             )}
-            <span className="sr-only">{isCopied ? 'Copied' : 'Copy transcript'}</span>
           </Button>
+        </div>
+
+        {isRecording && (
+          <div className="flex items-center justify-center gap-2 text-accent">
+            <div className="h-3 w-3 rounded-full bg-red-600 animate-pulse" />
+            <span className="text-sm font-medium">Recording...</span>
+          </div>
+        )}
+      </div>
+
+      {transcript && (
+        <div className="space-y-2">
+          <Label className="text-xs uppercase tracking-wide text-muted-foreground">Current Transcript</Label>
+          <div className="relative">
+            <Textarea
+              value={transcript}
+              onChange={(e) => setTranscript(e.target.value)}
+              className="min-h-[120px] text-base"
+            />
+            <Button
+              variant="ghost"
+              size="sm"
+              className="absolute top-2 right-2"
+              onClick={copyToClipboard}
+            >
+              {isCopied ? (
+                <Check className="h-4 w-4 text-accent" />
+              ) : (
+                <Copy className="h-4 w-4" />
+              )}
+              <span className="sr-only">{isCopied ? 'Copied' : 'Copy transcript'}</span>
+            </Button>
+          </div>
         </div>
       )}
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="outline">
+          <Button variant="secondary" className="w-full">
             <Clock className="mr-2 h-4 w-4" />
-            View History
+            View History ({transcriptHistory.length})
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle>Transcript History</DialogTitle>
           </DialogHeader>
-          <div className="max-h-[300px] overflow-y-auto">
-            {transcriptHistory.map((item) => (
-              <div key={item.id} className="mb-4 p-2 bg-slate-800 rounded">
-                <p className="text-sm text-gray-400">{item.date}</p>
-                <p className="mt-1 text-white">{item.text}</p>
-                <div className="mt-2 flex justify-end space-x-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setEditingTranscript(item)}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => deleteTranscript(item.id)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+          <div className="max-h-[400px] overflow-y-auto space-y-3">
+            {transcriptHistory.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-8">No transcripts yet</p>
+            ) : (
+              transcriptHistory.map((item) => (
+                <div key={item.id} className="p-3 bg-muted/50 rounded-lg border border-border/50">
+                  <p className="text-xs text-muted-foreground">{item.date}</p>
+                  <p className="mt-2 text-sm text-foreground line-clamp-3">{item.text}</p>
+                  <div className="mt-3 flex justify-end gap-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setEditingTranscript(item)}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => deleteTranscript(item.id)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </DialogContent>
       </Dialog>
+
       {editingTranscript && (
         <Dialog open={!!editingTranscript} onOpenChange={() => setEditingTranscript(null)}>
           <DialogContent>
@@ -210,9 +240,19 @@ export function Recorder() {
             <Textarea
               value={editingTranscript.text}
               onChange={(e) => setEditingTranscript({...editingTranscript, text: e.target.value})}
-              className="min-h-[100px]"
+              className="min-h-[120px]"
             />
-            <Button onClick={updateTranscript}>Save Changes</Button>
+            <div className="flex gap-2 justify-end">
+              <Button
+                variant="outline"
+                onClick={() => setEditingTranscript(null)}
+              >
+                Cancel
+              </Button>
+              <Button onClick={updateTranscript}>
+                Save Changes
+              </Button>
+            </div>
           </DialogContent>
         </Dialog>
       )}
