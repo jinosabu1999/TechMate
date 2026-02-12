@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { ArrowRightLeft } from 'lucide-react'
+import { Button } from "@/components/ui/button"
 
 const units = {
   length: ['meters', 'feet', 'inches', 'centimeters'],
@@ -47,66 +49,98 @@ export function Converter() {
     setToValue(result.toFixed(2))
   }
 
+  const handleSwapUnits = () => {
+    setFromUnit(toUnit)
+    setToUnit(fromUnit)
+    setFromValue(toValue)
+    setToValue(fromValue)
+  }
+
   return (
-    <div className="p-6 rounded-lg bg-slate-900 space-y-4">
-      <h2 className="text-xl text-white mb-3">Unit Converter</h2>
-      <Select value={category} onValueChange={(value) => {
-        setCategory(value)
-        setFromUnit(units[value as keyof typeof units][0])
-        setToUnit(units[value as keyof typeof units][1])
-      }}>
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select category" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="length">Length</SelectItem>
-          <SelectItem value="weight">Weight</SelectItem>
-          <SelectItem value="temperature">Temperature</SelectItem>
-        </SelectContent>
-      </Select>
+    <div className="card space-y-6">
+      <div className="space-y-2">
+        <Label className="text-xs uppercase tracking-wide text-muted-foreground">Conversion Category</Label>
+        <Select value={category} onValueChange={(value) => {
+          setCategory(value)
+          setFromUnit(units[value as keyof typeof units][0])
+          setToUnit(units[value as keyof typeof units][1])
+        }}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select category" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="length">Length</SelectItem>
+            <SelectItem value="weight">Weight</SelectItem>
+            <SelectItem value="temperature">Temperature</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="from-value" className="text-white">From</Label>
-          <Input
-            id="from-value"
-            type="number"
-            value={fromValue}
-            onChange={(e) => setFromValue(e.target.value)}
-            className="bg-slate-800 text-white border-slate-700"
-          />
-          <Select value={fromUnit} onValueChange={setFromUnit}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select unit" />
-            </SelectTrigger>
-            <SelectContent>
-              {units[category as keyof typeof units].map((unit) => (
-                <SelectItem key={unit} value={unit}>{unit}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+      <div className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] gap-4 items-end">
+          <div className="space-y-2">
+            <Label htmlFor="from-value" className="text-sm">From</Label>
+            <Input
+              id="from-value"
+              type="number"
+              value={fromValue}
+              onChange={(e) => setFromValue(e.target.value)}
+              placeholder="Enter value"
+              className="text-base"
+            />
+            <Select value={fromUnit} onValueChange={setFromUnit}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select unit" />
+              </SelectTrigger>
+              <SelectContent>
+                {units[category as keyof typeof units].map((unit) => (
+                  <SelectItem key={unit} value={unit}>{unit}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={handleSwapUnits}
+            className="h-10 w-10 rounded-full hidden sm:flex items-center justify-center"
+            title="Swap units"
+          >
+            <ArrowRightLeft className="h-4 w-4" />
+          </Button>
+
+          <div className="space-y-2">
+            <Label htmlFor="to-value" className="text-sm">To</Label>
+            <Input
+              id="to-value"
+              type="number"
+              value={toValue}
+              readOnly
+              placeholder="Result"
+              className="text-base"
+            />
+            <Select value={toUnit} onValueChange={setToUnit}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select unit" />
+              </SelectTrigger>
+              <SelectContent>
+                {units[category as keyof typeof units].map((unit) => (
+                  <SelectItem key={unit} value={unit}>{unit}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="to-value" className="text-white">To</Label>
-          <Input
-            id="to-value"
-            type="number"
-            value={toValue}
-            readOnly
-            className="bg-slate-800 text-white border-slate-700"
-          />
-          <Select value={toUnit} onValueChange={setToUnit}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select unit" />
-            </SelectTrigger>
-            <SelectContent>
-              {units[category as keyof typeof units].map((unit) => (
-                <SelectItem key={unit} value={unit}>{unit}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <Button
+          variant="outline"
+          onClick={handleSwapUnits}
+          className="w-full sm:hidden"
+        >
+          <ArrowRightLeft className="h-4 w-4 mr-2" />
+          Swap Units
+        </Button>
       </div>
     </div>
   )

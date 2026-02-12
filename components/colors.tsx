@@ -33,58 +33,68 @@ export function Colors() {
   }
 
   return (
-    <div className="p-6 rounded-lg bg-slate-900">
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        {palette.map((color, index) => (
-          <div key={index} className="flex flex-col items-center gap-2">
-            <button
-              onClick={() => copyToClipboard(color.hex, index)}
-              className="w-full aspect-square rounded-lg flex items-center justify-center text-white text-3xl transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/20"
-              style={{ backgroundColor: color.hex }}
-            />
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-white font-mono">{color.hex}</span>
-              <AnimatePresence initial={false} mode="wait">
-                <motion.button
-                  key={copiedIndex === index ? 'check' : 'copy'}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  onClick={() => copyToClipboard(color.hex, index)}
-                  className="p-1 rounded-full hover:bg-white/10"
-                >
-                  {copiedIndex === index ? (
-                    <Check className="w-4 h-4 text-green-500" />
-                  ) : (
-                    <Copy className="w-4 h-4 text-white/70" />
-                  )}
-                  <span className="sr-only">
-                    {copiedIndex === index ? 'Copied' : 'Copy color code'}
-                  </span>
-                </motion.button>
-              </AnimatePresence>
-            </div>
-          </div>
-        ))}
+    <div className="card space-y-6">
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Color Palette</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          {palette.map((color, index) => (
+            <motion.div 
+              key={index} 
+              className="flex flex-col items-center gap-2"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <button
+                onClick={() => copyToClipboard(color.hex, index)}
+                className="w-full aspect-square rounded-lg flex items-center justify-center text-white text-2xl transition-all hover:shadow-lg hover:shadow-primary/20 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                style={{ backgroundColor: color.hex }}
+                title={`Click to copy ${color.hex}`}
+              />
+              <div className="flex items-center gap-2 w-full">
+                <span className="text-xs sm:text-sm text-foreground font-mono flex-1 text-center">{color.hex}</span>
+                <AnimatePresence initial={false} mode="wait">
+                  <motion.button
+                    key={copiedIndex === index ? 'check' : 'copy'}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.2 }}
+                    onClick={() => copyToClipboard(color.hex, index)}
+                    className="p-1 rounded-full hover:bg-muted"
+                  >
+                    {copiedIndex === index ? (
+                      <Check className="w-4 h-4 text-accent" />
+                    ) : (
+                      <Copy className="w-4 h-4 text-muted-foreground" />
+                    )}
+                    <span className="sr-only">
+                      {copiedIndex === index ? 'Copied' : 'Copy color code'}
+                    </span>
+                  </motion.button>
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
 
       <Button
         onClick={generateNewPalette}
-        className="w-full bg-white text-slate-900 hover:bg-white/90 h-12 text-lg font-medium"
+        className="w-full h-11 text-base font-semibold"
       >
-        <RefreshCw className="w-5 h-5 mr-2" />
+        <RefreshCw className="w-4 h-4 mr-2" />
         Generate New Palette
       </Button>
 
-      <div className="mt-6">
-        <h2 className="text-xl text-white mb-3">Color Harmony</h2>
-        <div className="h-12 rounded-lg overflow-hidden flex">
+      <div className="space-y-2">
+        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Harmony Preview</h3>
+        <div className="h-12 rounded-lg overflow-hidden flex shadow-lg">
           {palette.map((color, index) => (
-            <div
+            <motion.div
               key={index}
-              className="flex-1"
+              className="flex-1 transition-all hover:flex-[1.5]"
               style={{ backgroundColor: color.hex }}
+              whileHover={{ scale: 1.05 }}
             />
           ))}
         </div>
