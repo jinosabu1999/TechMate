@@ -20,6 +20,8 @@ interface TranscriptItem {
   date: string;
 }
 
+type SpeechRecognitionType = typeof window.SpeechRecognition | typeof window.webkitSpeechRecognition
+
 export function Recorder() {
   const [isRecording, setIsRecording] = useState(false)
   const [transcript, setTranscript] = useState('')
@@ -27,7 +29,7 @@ export function Recorder() {
   const [transcriptHistory, setTranscriptHistory] = useState<TranscriptItem[]>([])
   const [editingTranscript, setEditingTranscript] = useState<TranscriptItem | null>(null)
   const mediaRecorder = useRef<MediaRecorder | null>(null)
-  const recognitionRef = useRef<SpeechRecognition | null>(null)
+  const recognitionRef = useRef<InstanceType<SpeechRecognitionType> | null>(null)
   const { toast } = useToast()
 
   useEffect(() => {
