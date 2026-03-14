@@ -1,18 +1,24 @@
 import { Layout } from "@/components/layout"
-import { ToolTabs } from "@/components/tool-tabs"
+import { ToolLayout } from "@/components/tool-layout"
 import { Converter } from "@/components/converter"
+import { FileType } from "lucide-react"
+
+export const metadata = {
+  title: "Unit Converter - TechMate",
+  description: "Convert between different units instantly",
+}
 
 export default function ConverterPage() {
   return (
     <Layout>
-      <div className="space-y-8">
-        <div className="text-center space-y-3">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">Unit Converter</h1>
-          <p className="text-muted-foreground text-base sm:text-lg max-w-md mx-auto">Convert between different units instantly. Supports length, weight, and temperature conversions with precision.</p>
-        </div>
-        <ToolTabs />
+      <ToolLayout
+        title="Unit Converter"
+        description="Convert between different units instantly. Supports length, weight, and temperature conversions with precision."
+        icon={FileType}
+        breadcrumbs={[{ label: "Tools" }, { label: "Converter" }]}
+      >
         <Converter />
-      </div>
+      </ToolLayout>
     </Layout>
   )
 }

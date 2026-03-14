@@ -1,18 +1,24 @@
 import { Layout } from "@/components/layout"
-import { ToolTabs } from "@/components/tool-tabs"
+import { ToolLayout } from "@/components/tool-layout"
 import { PasswordGenerator } from "@/components/password-generator"
+import { KeyRound } from "lucide-react"
+
+export const metadata = {
+  title: "Password Generator - TechMate",
+  description: "Create strong, secure passwords with customizable options",
+}
 
 export default function Home() {
   return (
     <Layout>
-      <div className="space-y-8">
-        <div className="text-center space-y-3">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">Password Generator</h1>
-          <p className="text-muted-foreground text-base sm:text-lg max-w-md mx-auto">Create strong, secure passwords instantly. Customize the length and character types to match your security requirements.</p>
-        </div>
-        <ToolTabs />
+      <ToolLayout
+        title="Password Generator"
+        description="Create strong, secure passwords instantly. Customize the length and character types to match your security requirements."
+        icon={KeyRound}
+        breadcrumbs={[{ label: "Tools" }, { label: "Password Generator" }]}
+      >
         <PasswordGenerator />
-      </div>
+      </ToolLayout>
     </Layout>
   )
 }

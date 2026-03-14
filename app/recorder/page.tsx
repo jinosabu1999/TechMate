@@ -1,18 +1,24 @@
 import { Layout } from "@/components/layout"
-import { ToolTabs } from "@/components/tool-tabs"
+import { ToolLayout } from "@/components/tool-layout"
 import { Recorder } from "@/components/recorder"
+import { Mic } from "lucide-react"
+
+export const metadata = {
+  title: "Voice Recorder & Transcriber - TechMate",
+  description: "Record audio and get instant transcriptions",
+}
 
 export default function RecorderPage() {
   return (
     <Layout>
-      <div className="space-y-8">
-        <div className="text-center space-y-3">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">Voice Recorder & Transcriber</h1>
-          <p className="text-muted-foreground text-base sm:text-lg max-w-md mx-auto">Record audio and get instant transcriptions. Save and manage your transcripts with ease.</p>
-        </div>
-        <ToolTabs />
+      <ToolLayout
+        title="Voice Recorder & Transcriber"
+        description="Record audio and get instant transcriptions. Save and manage your transcripts with ease."
+        icon={Mic}
+        breadcrumbs={[{ label: "Tools" }, { label: "Recorder" }]}
+      >
         <Recorder />
-      </div>
+      </ToolLayout>
     </Layout>
   )
 }

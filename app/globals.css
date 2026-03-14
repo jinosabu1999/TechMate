@@ -4,36 +4,70 @@
 
 @layer base {
   :root {
+    /* Base Colors */
     --background: 0 0% 5%;
+    --surface: 240 10% 11%;
+    --surface-light: 240 10% 15%;
     --foreground: 0 0% 95%;
+    --muted-foreground: 0 0% 60%;
+    
+    /* Primary & Semantic */
     --primary: 217 100% 50%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 218 14% 20%;
+    --secondary: 240 10% 20%;
     --secondary-foreground: 0 0% 100%;
-    --accent: 169 100% 47%;
-    --accent-foreground: 0 0% 100%;
-    --muted: 218 14% 25%;
-    --muted-foreground: 0 0% 80%;
-    --border: 218 14% 15%;
-    --input: 218 14% 12%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 240 10% 5%;
+    
+    /* Status Colors */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 5%;
+    --error: 0 84% 60%;
+    --error-foreground: 0 0% 100%;
+    --info: 217 100% 50%;
+    --info-foreground: 0 0% 100%;
+    
+    /* UI Elements */
+    --muted: 240 10% 25%;
+    --border: 240 10% 15%;
+    --input: 240 10% 10%;
     --ring: 217 100% 50%;
+    --ring-focus: 180 100% 50%;
+    
+    /* Spacing & Sizing */
     --radius: 0.5rem;
+    --transition-fast: 150ms;
+    --transition-normal: 300ms;
+    --transition-slow: 500ms;
   }
 
   .dark {
     --background: 0 0% 5%;
+    --surface: 240 10% 11%;
+    --surface-light: 240 10% 15%;
     --foreground: 0 0% 95%;
+    --muted-foreground: 0 0% 60%;
     --primary: 217 100% 50%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 218 14% 20%;
+    --secondary: 240 10% 20%;
     --secondary-foreground: 0 0% 100%;
-    --accent: 169 100% 47%;
-    --accent-foreground: 0 0% 100%;
-    --muted: 218 14% 25%;
-    --muted-foreground: 0 0% 80%;
-    --border: 218 14% 15%;
-    --input: 218 14% 12%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 240 10% 5%;
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 5%;
+    --error: 0 84% 60%;
+    --error-foreground: 0 0% 100%;
+    --info: 217 100% 50%;
+    --info-foreground: 0 0% 100%;
+    --muted: 240 10% 25%;
+    --border: 240 10% 15%;
+    --input: 240 10% 10%;
     --ring: 217 100% 50%;
+    --ring-focus: 180 100% 50%;
   }
 
   * {
@@ -54,12 +88,79 @@
     @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
   }
 
+  .container-fluid {
+    @apply mx-auto px-4 sm:px-6 lg:px-8 w-full;
+  }
+
   .card {
-    @apply rounded-lg border border-border bg-secondary p-6;
+    @apply rounded-lg border border-border bg-surface p-6 transition-all duration-300;
+  }
+
+  .card-elevated {
+    @apply rounded-lg border border-border/50 bg-surface shadow-lg shadow-black/20 p-6;
+  }
+
+  .card-interactive {
+    @apply rounded-lg border border-border bg-surface p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 cursor-pointer;
   }
 
   .gradient-text {
     @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+
+  .gradient-bg {
+    @apply bg-gradient-to-br from-surface via-surface-light to-surface;
+  }
+
+  .glass {
+    @apply rounded-lg border border-white/10 bg-white/5 backdrop-blur-md;
+  }
+
+  /* Typography Utility */
+  .text-display {
+    @apply text-4xl sm:text-5xl font-bold tracking-tight;
+  }
+
+  .text-heading {
+    @apply text-2xl sm:text-3xl font-bold;
+  }
+
+  .text-subheading {
+    @apply text-lg sm:text-xl font-semibold;
+  }
+
+  .text-body {
+    @apply text-base leading-relaxed;
+  }
+
+  .text-label {
+    @apply text-sm font-medium;
+  }
+
+  .text-caption {
+    @apply text-xs font-medium text-muted-foreground;
+  }
+
+  /* Focus States */
+  .focus-ring {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+  }
+
+  .focus-ring-sm {
+    @apply outline-none ring-2 ring-primary ring-offset-1 ring-offset-background;
+  }
+
+  /* Transition Utilities */
+  .transition-fast {
+    transition-duration: var(--transition-fast);
+  }
+
+  .transition-normal {
+    transition-duration: var(--transition-normal);
+  }
+
+  .transition-slow {
+    transition-duration: var(--transition-slow);
   }
 }
 
