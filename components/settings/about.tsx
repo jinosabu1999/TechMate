@@ -35,7 +35,7 @@ export function AboutSettings() {
           </div>
 
           <div className="space-y-2 pt-6 border-t border-border">
-            <Label className="text-base font-semibold">What's New</Label>
+            <Label className="text-base font-semibold">What&apos;s New</Label>
             <div className="text-sm text-muted-foreground space-y-2">
               <p>
                 TechMate v1.0 brings a modern redesign with:
